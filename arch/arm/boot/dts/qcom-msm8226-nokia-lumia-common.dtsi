@@ -9,6 +9,153 @@
  */
 #include "qcom-msm8226.dtsi"
 
+/ {
+	smd {
+		compatible = "qcom,smd";
+
+		rpm {
+			interrupts = <GIC_SPI 168 IRQ_TYPE_EDGE_RISING>;
+			qcom,ipc = <&apcs 8 0>;
+			qcom,smd-edge = <15>;
+
+			rpm_requests {
+				compatible = "qcom,rpm-msm8226";
+				qcom,smd-channels = "rpm_requests";
+
+				rpmcc: clock-controller {
+					compatible = "qcom,rpmcc-msm8226", "qcom,rpmcc";
+					#clock-cells = <1>;
+				};
+
+				pm8226-regulators {
+					compatible = "qcom,rpm-pm8226-regulators";
+					/* These values were taken from original WP ACPI tables
+					 * The following regulators' voltages were not present in the dsdt, hence they are not included here :
+					 * s2, l1, l2, l5, l7, l9, l14, l22, l23, l26, l27 
+					*/
+					s1 {
+						regulator-min-microvolt = <1050000>;
+						regulator-max-microvolt = <1050000>;
+					};
+					
+					s3 {
+						regulator-min-microvolt = <1300000>;
+						regulator-max-microvolt = <1300000>;
+					};
+
+					s4 {
+						regulator-min-microvolt = <1800000>;
+						regulator-max-microvolt = <1800000>;
+					};
+
+					s5 {
+						regulator-min-microvolt = <1150000>;
+						regulator-max-microvolt = <1150000>;
+					};
+					
+					l3 {
+						regulator-min-microvolt = <750000>;
+						regulator-max-microvolt = <1150000>;
+					};
+
+					l4 {
+						regulator-min-microvolt = <1200000>;
+						regulator-max-microvolt = <1200000>;
+					};
+					
+					l6 {
+						regulator-min-microvolt = <1800000>;
+						regulator-max-microvolt = <1800000>;
+					};
+					
+					l8 {
+						regulator-min-microvolt = <1800000>;
+						regulator-max-microvolt = <1800000>;
+
+						regulator-always-on;
+					};
+					
+					l10 {
+						regulator-min-microvolt = <1800000>;
+						regulator-max-microvolt = <1800000>;
+					};
+
+					l12 {
+						regulator-min-microvolt = <1800000>;
+						regulator-max-microvolt = <1800000>;
+					};
+
+					l13 {
+						regulator-min-microvolt = <1800000>;
+						regulator-max-microvolt = <1800000>;
+					};
+					
+					l15 {
+						regulator-min-microvolt = <2850000>;
+						regulator-max-microvolt = <2850000>;
+					};
+
+					l16 {
+						regulator-min-microvolt = <3000000>;
+						regulator-max-microvolt = <3000000>;
+					};
+					
+					l17 {
+						regulator-min-microvolt = <2950000>;
+						regulator-max-microvolt = <2950000>;
+
+						regulator-allow-set-load;
+						regulator-system-load = <200000>;
+					};
+					
+					l18 {
+						regulator-min-microvolt = <2950000>;
+						regulator-max-microvolt = <2950000>;
+
+						regulator-allow-set-load;
+						regulator-system-load = <200000>;
+					};
+
+					l19 {
+						regulator-min-microvolt = <2850000>;
+						regulator-max-microvolt = <2850000>;
+					};
+					
+					l20 {
+						regulator-min-microvolt = <3075000>;
+						regulator-max-microvolt = <3075000>;
+					};
+
+					l21 {
+						regulator-min-microvolt = <1850000>;
+						regulator-max-microvolt = <2950000>;
+					};
+					
+					l24 {
+						regulator-min-microvolt = <1300000>;
+						regulator-max-microvolt = <1300000>;
+					};
+
+					l25 {
+						regulator-min-microvolt = <1775000>;
+						regulator-max-microvolt = <1775000>;
+					};
+					
+					l28 {
+						regulator-min-microvolt = <2000000>;
+						regulator-max-microvolt = <3300000>;
+					};
+						
+					lvs1 {
+						regulator-min-microvolt = <1800000>;
+						regulator-max-microvolt = <1800000>;
+					};
+				};
+			};
+		};
+	};
+};
+
 &sdhc_1 {
 	status = "ok";
 };
