@@ -8,6 +8,6 @@
 #include "qcom-msm8226-nokia-lumia-common.dtsi"
 
 / {
-	model = "Nokia Lumia 640";
+	model = "Microsoft Lumia 640";
 	compatible = "lumia,dempsey","qcom,msm8226";
 };
