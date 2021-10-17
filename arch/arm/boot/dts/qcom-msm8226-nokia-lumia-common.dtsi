@@ -169,18 +169,18 @@
 
  		volume-up {
  			label = "Volume Up";
- 			gpios = <&msmgpio 106 GPIO_ACTIVE_HIGH>;
+ 			gpios = <&tlmm 106 GPIO_ACTIVE_HIGH>;
  			linux,code = <KEY_VOLUMEUP>;
  		};
         /* We temporarily have the camera snapshot key as the power key while we get power key working */
  		power { /* camera-snapshot */
  			label = "Power"; /* Camera Snapshot */
- 			gpios = <&msmgpio 107 GPIO_ACTIVE_HIGH>;
+ 			gpios = <&tlmm 107 GPIO_ACTIVE_HIGH>;
  			linux,code = <KEY_POWER>; /* KEY_CAMERA */
  		};
  		camera-focus {
  			label = "Camera Focus";
- 			gpios = <&msmgpio 108 GPIO_ACTIVE_HIGH>;
+ 			gpios = <&tlmm 108 GPIO_ACTIVE_HIGH>;
  			linux,code = <KEY_CAMERA_FOCUS>;
  		};
  	};  
@@ -194,7 +194,7 @@
 	status = "ok";
 };
 
-&msmgpio {
+&tlmm {
  	gpio_keys_pin_a: gpio-keys-active {
  		pinmux {
  			function = "gpio";
