@@ -8,6 +8,8 @@
  * Copyright (c) 2021, Dominik Kobinski <Dominduchami@outlook.com>
  */
 #include "qcom-msm8226.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
 
 / {
 	smd {
@@ -156,6 +158,34 @@
 	};
 };
 
+&soc {
+ 	gpio-keys {
+ 		compatible = "gpio-keys";
+
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&gpio_keys_pin_a>;
+
+ 		label = "GPIO Buttons";
+
+ 		volume-up {
+ 			label = "Volume Up";
+ 			gpios = <&msmgpio 106 GPIO_ACTIVE_HIGH>;
+ 			linux,code = <KEY_VOLUMEUP>;
+ 		};
+        /* We temporarily have the camera snapshot key as the power key while we get power key working */
+ 		power { /* camera-snapshot */
+ 			label = "Power"; /* Camera Snapshot */
+ 			gpios = <&msmgpio 107 GPIO_ACTIVE_HIGH>;
+ 			linux,code = <KEY_POWER>; /* KEY_CAMERA */
+ 		};
+ 		camera-focus {
+ 			label = "Camera Focus";
+ 			gpios = <&msmgpio 108 GPIO_ACTIVE_HIGH>;
+ 			linux,code = <KEY_CAMERA_FOCUS>;
+ 		};
+ 	};  
+ };
+
 &sdhc_1 {
 	status = "ok";
 };
@@ -163,3 +193,17 @@
 &sdhc_2 {
 	status = "ok";
 };
+
+&msmgpio {
+ 	gpio_keys_pin_a: gpio-keys-active {
+ 		pinmux {
+ 			function = "gpio";
+ 			pins = "gpio106", "gpio107", "gpio108";
+ 		};
+ 		pinconf {
+ 			pins = "gpio106", "gpio107", "gpio108";
+ 			drive-strength = <2>;
+ 			bias-pull-up;
+ 		};
+ 	};
+ }; 
