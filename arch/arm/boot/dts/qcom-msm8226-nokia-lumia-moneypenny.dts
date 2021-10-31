@@ -1,0 +1,14 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2021, Jack Matthews <jack@matthews-net.org.uk>
+ * Copyright (c) 2021, Dominik Kobinski <Dominduchami@outlook.com>
+ * Copyright (c) 2021, Ivaylo Ivanov <ivo.ivanov@null.net>
+ */
+/dts-v1/;
+
+#include "qcom-msm8226-lumia-common.dtsi"
+
+/ {
+	model = "Nokia Lumia 630";
+	compatible = "lumia,moneypenny","qcom,msm8226";
+};

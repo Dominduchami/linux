@@ -1,0 +1,261 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Common Board Device Tree for
+ * Microsoft Mobile MSM8226 Platforms
+ *
+ * Copyright (c) 2021, Jack Matthews <jack@matthews-net.org.uk>
+ * Copyright (c) 2021, Ivaylo Ivanov <ivo.ivanov@null.net>
+ * Copyright (c) 2021, Dominik Kobinski <Dominduchami@outlook.com>
+ */
+
+#include "qcom-msm8226.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/input.h>
+
+/*
+ * Delete all generic (msm8226.dtsi) reserved
+ * memory mappings which are different in this device.
+*/
+/delete-node/ &smem_region;
+
+/ {
+	/*
+	 * This enables graphical output via bootloader-enabled display.
+	*/
+	chosen {
+		bootargs = "earlycon=efifb console=efifb";
+
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+	};
+	
+	/*
+	* This device being a WP platform has a different
+	* memory layout than other Android based devices.
+	* This smem memory region is directly copied from
+	* the original UEFI firmware.
+	*/
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		smem_region: smem@fa00000 {
+			reg = <0xfa00000 0x100000>;
+			no-map;
+		};
+	};
+};
+
+&sdhc_1 {
+	status = "ok";
+
+	vmmc-supply = <&pm8226_l17>;
+	vqmmc-supply = <&pm8226_l6>;
+};
+
+&sdhc_2 {
+	status = "ok";
+	
+	vmmc-supply = <&pm8226_l18>;
+	vqmmc-supply = <&pm8226_l21>;
+};
+
+
+&rpm_requests {
+	pm8226-regulators {
+		compatible = "qcom,rpm-pm8226-regulators";
+
+		/* These values were taken from the original firmware DSDT */
+		pm8226_s1: s1 {
+			regulator-min-microvolt = <1050000>;
+			regulator-max-microvolt = <1050000>;
+		};
+		
+		pm8226_s3: s3 {
+			regulator-min-microvolt = <1300000>;
+			regulator-max-microvolt = <1300000>;
+		};
+		
+		pm8226_s4: s4 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <2100000>;
+		};
+		
+		pm8226_s5: s5 {
+			regulator-min-microvolt = <1150000>;
+			regulator-max-microvolt = <1150000>;
+		};
+		
+		pm8226_l3: l3 {
+			regulator-min-microvolt = <750000>;
+			regulator-max-microvolt = <1150000>;
+		};
+		
+		pm8226_l4: l4 {
+			regulator-min-microvolt = <1200000>;
+			regulator-max-microvolt = <1200000>;
+		};
+
+		pm8226_l5: l5 {
+			regulator-min-microvolt = <1200000>;
+			regulator-max-microvolt = <1200000>;
+		};
+					
+		pm8226_l6: l6 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+		};
+
+		pm8226_l7: l7 {
+			regulator-min-microvolt = <1850000>;
+			regulator-max-microvolt = <1850000>;
+		};
+		
+		pm8226_l8: l8 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+			
+			regulator-always-on;
+		};
+
+		pm8226_l9: l9 {
+			regulator-min-microvolt = <2050000>;
+			regulator-max-microvolt = <2050000>;
+		};
+		
+		pm8226_l10: l10 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+		};
+
+		pm8226_l12: l12 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+		};
+
+		pm8226_l14: l14 {
+			regulator-min-microvolt = <2750000>;
+			regulator-max-microvolt = <2750000>;
+		};
+		
+		pm8226_l15: l15 {
+			regulator-min-microvolt = <2850000>;
+			regulator-max-microvolt = <2850000>;
+		};
+		
+		pm8226_l16: l16 {
+			regulator-min-microvolt = <3000000>;
+			regulator-max-microvolt = <3000000>;
+		};
+					
+		pm8226_l17: l17 {
+			regulator-min-microvolt = <2950000>;
+			regulator-max-microvolt = <2950000>;
+
+			regulator-allow-set-load;
+			regulator-system-load = <200000>;
+		};
+		
+		pm8226_l18: l18 {
+			regulator-min-microvolt = <2950000>;
+			regulator-max-microvolt = <2950000>;
+
+			regulator-allow-set-load;
+			regulator-system-load = <200000>;
+		};
+
+		pm8226_l19: l19 {
+			regulator-min-microvolt = <2850000>;
+			regulator-max-microvolt = <2850000>;
+		};
+		
+		pm8226_l20: l20 {
+			regulator-min-microvolt = <3075000>;
+			regulator-max-microvolt = <3075000>;
+		};
+		
+		pm8226_l21: l21 {
+			regulator-min-microvolt = <1850000>;
+			regulator-max-microvolt = <2950000>;
+		};
+		
+		pm8226_l22: l22 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+		};
+		
+		pm8226_l23: l23 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+		};
+
+		pm8226_l24: l24 {
+			regulator-min-microvolt = <1300000>;
+			regulator-max-microvolt = <1300000>;
+		};
+		
+		pm8226_l25: l25 {
+			regulator-min-microvolt = <1775000>;
+			regulator-max-microvolt = <2075000>;
+		};
+		
+		pm8226_l27: l27 {
+			regulator-min-microvolt = <2050000>;
+			regulator-max-microvolt = <2050000>;
+		};
+		
+		pm8226_l28: l28 {
+			regulator-min-microvolt = <2000000>;
+			regulator-max-microvolt = <3000000>;
+		};
+	};
+};
+
+&soc {
+	gpio-keys {
+		compatible = "gpio-keys";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&gpio_keys_pin_a>;
+
+		label = "GPIO Buttons";
+
+		volume-up {
+			label = "Volume Up";
+			gpios = <&tlmm 106 GPIO_ACTIVE_HIGH>;
+			linux,code = <KEY_VOLUMEUP>;
+		};
+		
+		/* We temporarily have the camera snapshot key 
+		* as the power key while we get power key working 
+		*/
+		power {
+			label = "Power";
+			gpios = <&tlmm 107 GPIO_ACTIVE_HIGH>;
+			linux,code = <KEY_POWER>;
+		};
+
+		camera-focus {
+			label = "Camera Focus";
+			gpios = <&tlmm 108 GPIO_ACTIVE_HIGH>;
+			linux,code = <KEY_CAMERA_FOCUS>;
+		};
+	};
+};
+
+&tlmm {
+	gpio_keys_pin_a: gpio-keys-active {
+		pinmux {
+			function = "gpio";
+			pins = "gpio106", "gpio107", "gpio108";
+		};
+
+		pinconf {
+			pins = "gpio106", "gpio107", "gpio108";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+};

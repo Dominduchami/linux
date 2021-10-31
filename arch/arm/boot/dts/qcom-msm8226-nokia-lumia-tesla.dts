@@ -1,0 +1,13 @@
+// SPDX-License-Identifier: BSD-3-Clause
+/*
+ * Copyright (c) 2021, Dominik Kobinski <Dominduchami@outlook.com>
+ * Copyright (c) 2021, Ivaylo Ivanov <ivo.ivanov@null.net>
+ */
+/dts-v1/;
+
+#include "qcom-msm8226-lumia-common.dtsi"
+
+/ {
+	model = "Nokia Lumia 830";
+	compatible = "lumia,tesla","qcom,msm8226";
+};
