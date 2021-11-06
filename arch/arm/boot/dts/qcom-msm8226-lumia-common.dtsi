@@ -29,6 +29,10 @@
 		#size-cells = <1>;
 		ranges;
 	};
+
+	usb_vbus: extcon-usb-dummy {
+		compatible = "linux,extcon-usb-dummy";
+	};
 	
 	/*
 	* This device being a WP platform has a different
@@ -258,4 +262,18 @@
 			bias-pull-up;
 		};
 	};
+};
+
+&usb {
+	status = "okay";
+	//extcon = <&smbb>, <&usb_id>;
+	extcon = <&usb_vbus>;
+	dr_mode = "peripheral";
+};
+
+&usb_hs_phy {
+	//extcon = <&smbb>;
+	extcon = <&usb_vbus>;
+	v1p8-supply = <&pm8226_l10>;
+	v3p3-supply = <&pm8226_l20>;
 };
