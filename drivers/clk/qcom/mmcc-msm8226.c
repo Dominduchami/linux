@@ -14,8 +14,8 @@
 #include <linux/regmap.h>
 #include <linux/reset-controller.h>
 
-#include <dt-bindings/clock/qcom,mmcc-msm8974.h>
-#include <dt-bindings/reset/qcom,mmcc-msm8974.h>
+#include <dt-bindings/clock/qcom,mmcc-msm8226.h>
+#include <dt-bindings/reset/qcom,mmcc-msm8226.h>
 
 #include "common.h"
 #include "clk-regmap.h"
@@ -25,7 +25,7 @@
 #include "reset.h"
 #include "gdsc.h"
 
-enum {
+/*enum {
 	P_XO,
 	P_MMPLL0,
 	P_MMPLL1,
@@ -129,7 +129,143 @@ static const char * const mmcc_xo_dsibyte_gpll0[] = {
 	"edp_link_clk",
 	"gpll0_vote",
 	"dsi0pllbyte",
+};*/
+
+enum {
+	P_XO,
+	P_MMPLL0,
+	P_EDPLINK,
+	P_MMPLL1,
+	P_HDMIPLL,
+	P_GPLL0,
+	P_EDPVCO,
+	P_GPLL1,
+	P_DSI0PLL,
+	P_DSI0PLL_BYTE,
+	P_MMPLL2,
+	P_MMPLL3,
+	P_DSI1PLL,
+	P_DSI1PLL_BYTE,
 };
+
+static const struct parent_map mmcc_xo_mmpll0_mmpll1_gpll0_map[] = {
+	{ P_XO, 0 },
+	{ P_MMPLL0, 1 },
+	{ P_MMPLL1, 2 },
+	{ P_GPLL0, 5 }
+};
+
+static const char * const mmcc_xo_mmpll0_mmpll1_gpll0[] = {
+	"xo",
+	"mmpll0_vote",
+	"mmpll1_vote",
+	"mmss_gpll0_vote",
+};
+
+static const struct parent_map mmcc_xo_mmpll0_dsi_hdmi_gpll0_map[] = {
+	{ P_XO, 0 },
+	{ P_MMPLL0, 1 },
+	{ P_HDMIPLL, 4 },
+	{ P_GPLL0, 5 },
+	{ P_DSI0PLL, 2 },
+	{ P_DSI1PLL, 3 }
+};
+
+static const char * const mmcc_xo_mmpll0_dsi_hdmi_gpll0[] = {
+	"xo",
+	"mmpll0_vote",
+	"hdmipll",
+	"mmss_gpll0_vote",
+	"dsi0pll",
+	"dsi1pll",
+};
+
+static const struct parent_map mmcc_xo_mmpll0_1_3_gpll0_map[] = {
+	{ P_XO, 0 },
+	{ P_MMPLL0, 1 },
+	{ P_MMPLL1, 2 },
+	{ P_GPLL0, 5 },
+	{ P_MMPLL3, 3 }
+};
+
+static const char * const mmcc_xo_mmpll0_1_3_gpll0[] = {
+	"xo",
+	"mmpll0_vote",
+	"mmpll1_vote",
+	"mmss_gpll0_vote",
+	"mmpll3",
+};
+
+static const struct parent_map mmcc_xo_mmpll0_1_gpll1_0_map[] = {
+	{ P_XO, 0 },
+	{ P_MMPLL0, 1 },
+	{ P_MMPLL1, 2 },
+	{ P_GPLL0, 5 },
+	{ P_GPLL1, 4 }
+};
+
+static const char * const mmcc_xo_mmpll0_1_gpll1_0[] = {
+	"xo",
+	"mmpll0_vote",
+	"mmpll1_vote",
+	"mmss_gpll0_vote",
+	"gpll1_vote",
+};
+
+static const struct parent_map mmcc_xo_dsi_hdmi_edp_map[] = {
+	{ P_XO, 0 },
+	{ P_EDPLINK, 4 },
+	{ P_HDMIPLL, 3 },
+	{ P_EDPVCO, 5 },
+	{ P_DSI0PLL, 1 },
+	{ P_DSI1PLL, 2 }
+};
+
+static const char * const mmcc_xo_dsi_hdmi_edp[] = {
+	"xo",
+	"edp_link_clk",
+	"hdmipll",
+	"edp_vco_div",
+	"dsi0pll",
+	"dsi1pll",
+};
+
+static const struct parent_map mmcc_xo_dsi_hdmi_edp_gpll0_map[] = {
+	{ P_XO, 0 },
+	{ P_EDPLINK, 4 },
+	{ P_HDMIPLL, 3 },
+	{ P_GPLL0, 5 },
+	{ P_DSI0PLL, 1 },
+	{ P_DSI1PLL, 2 }
+};
+
+static const char * const mmcc_xo_dsi_hdmi_edp_gpll0[] = {
+	"xo",
+	"edp_link_clk",
+	"hdmipll",
+	"gpll0_vote",
+	"dsi0pll",
+	"dsi1pll",
+};
+
+static const struct parent_map mmcc_xo_dsibyte_hdmi_edp_gpll0_map[] = {
+	{ P_XO, 0 },
+	{ P_EDPLINK, 4 },
+	{ P_HDMIPLL, 3 },
+	{ P_GPLL0, 5 },
+	{ P_DSI0PLL_BYTE, 1 },
+	{ P_DSI1PLL_BYTE, 2 }
+};
+
+static const char * const mmcc_xo_dsibyte_hdmi_edp_gpll0[] = {
+	"xo",
+	"edp_link_clk",
+	"hdmipll",
+	"gpll0_vote",
+	"dsi0pllbyte",
+	"dsi1pllbyte",
+};
+
 
 static struct clk_pll mmpll0 = {
 	.l_reg = 0x0004,//MMPLL0_L_VAL
@@ -298,11 +434,11 @@ static struct freq_tbl ftbl_mdss_mdp_clk[] = {//ok
 static struct clk_rcg2 mdp_clk_src = {
 	.cmd_rcgr = 0x2040,
 	.hid_width = 5,
-	.parent_map = mmcc_xo_mmpll0_dsi_gpll0_map,
+	.parent_map = mmcc_xo_mmpll0_dsi_hdmi_gpll0_map,
 	.freq_tbl = ftbl_mdss_mdp_clk,
 	.clkr.hw.init = &(struct clk_init_data){
 		.name = "mdp_clk_src",
-		.parent_names = mmcc_xo_mmpll0_dsi_gpll0,
+		.parent_names = mmcc_xo_mmpll0_dsi_hdmi_gpll0,
 		.num_parents = 6,
 		.ops = &clk_rcg2_ops,
 	},
@@ -335,10 +471,10 @@ static struct clk_rcg2 pclk0_clk_src = {
 	.cmd_rcgr = 0x2000,// PCLK0_CMD_RCGR   
 	.mnd_width = 8,
 	.hid_width = 5,
-	.parent_map = mmcc_xo_dsi_gpll0_map,
+	.parent_map = mmcc_xo_dsi_hdmi_edp_gpll0_map,
 	.clkr.hw.init = &(struct clk_init_data){
 		.name = "pclk0_clk_src",
-		.parent_names = mmcc_xo_dsi_gpll0,
+		.parent_names = mmcc_xo_dsi_hdmi_edp_gpll0,
 		.num_parents = 6,
 		.ops = &clk_pixel_ops,
 		.flags = CLK_SET_RATE_PARENT,
@@ -357,11 +493,11 @@ static struct clk_rcg2 vcodec0_clk_src = {
 	.cmd_rcgr = 0x1000,
 	.mnd_width = 8,
 	.hid_width = 5,
-	.parent_map = mmcc_xo_mmpll0_1_gpll0_map,
+	.parent_map =  mmcc_xo_mmpll0_1_3_gpll0_map,
 	.freq_tbl = ftbl_venus0_vcodec0_clk,
 	.clkr.hw.init = &(struct clk_init_data){
 		.name = "vcodec0_clk_src",
-		.parent_names = mmcc_xo_mmpll0_1_gpll0,
+		.parent_names = mmcc_xo_mmpll0_1_3_gpll0,
 		.num_parents = 5,
 		.ops = &clk_rcg2_ops,
 	},
@@ -518,11 +654,11 @@ static struct freq_tbl byte_freq_tbl[] = {
 static struct clk_rcg2 byte0_clk_src = {
 	.cmd_rcgr = 0x2120,
 	.hid_width = 5,
-	.parent_map = mmcc_xo_dsibyte_gpll0_map,
+	.parent_map = mmcc_xo_dsibyte_hdmi_edp_gpll0_map,
 	.freq_tbl = byte_freq_tbl,
 	.clkr.hw.init = &(struct clk_init_data){
 		.name = "byte0_clk_src",
-		.parent_names = mmcc_xo_dsibyte_gpll0,
+		.parent_names = mmcc_xo_dsibyte_hdmi_edp_gpll0,
 		.num_parents = 6,
 		.ops = &clk_byte2_ops,
 		.flags = CLK_SET_RATE_PARENT,
@@ -537,11 +673,11 @@ static struct freq_tbl ftbl_mdss_esc0_clk[] = {
 static struct clk_rcg2 esc0_clk_src = {
 	.cmd_rcgr = 0x2160,
 	.hid_width = 5,
-	.parent_map = mmcc_xo_dsibyte_gpll0_map,
+	.parent_map = mmcc_xo_dsibyte_hdmi_edp_gpll0_map,
 	.freq_tbl = ftbl_mdss_esc0_clk,
 	.clkr.hw.init = &(struct clk_init_data){
 		.name = "esc0_clk_src",
-		.parent_names = mmcc_xo_dsibyte_gpll0,
+		.parent_names = mmcc_xo_dsibyte_hdmi_edp_gpll0,
 		.num_parents = 6,
 		.ops = &clk_rcg2_ops,
 	},
