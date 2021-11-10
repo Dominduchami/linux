@@ -53,6 +53,14 @@
 			interrupts = <GIC_SPI 208 IRQ_TYPE_LEVEL_HIGH>;
 		};
 
+		mmcc: clock-controller@fd8c0000 {
+			compatible = "qcom,mmcc-msm8226";
+			#clock-cells = <1>;
+			#reset-cells = <1>;
+			#power-domain-cells = <1>;
+			reg = <0xfd8c0000 0x6000>;
+		};
+
 		blsp1_uart3: serial@f991f000 {
 			compatible = "qcom,msm-uartdm-v1.4", "qcom,msm-uartdm";
 			reg = <0xf991f000 0x1000>;
