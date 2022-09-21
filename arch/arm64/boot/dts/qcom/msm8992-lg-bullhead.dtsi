@@ -29,22 +29,17 @@
 	};
 
 	chosen {
-		stdout-path = "serial0:115200n8";
+		bootargs = "earlycon=efifb console=efifb acpi=no";
+
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
 	};
 
 	reserved-memory {
 		#address-cells = <2>;
 		#size-cells = <2>;
 		ranges;
-
-		ramoops@1ff00000 {
-			compatible = "ramoops";
-			reg = <0x0 0x1ff00000 0x0 0x40000>;
-			console-size = <0x10000>;
-			record-size = <0x10000>;
-			ftrace-size = <0x10000>;
-			pmsg-size = <0x20000>;
-		};
 
 		cont_splash_mem: memory@3400000 {
 			reg = <0 0x03400000 0 0x1200000>;
