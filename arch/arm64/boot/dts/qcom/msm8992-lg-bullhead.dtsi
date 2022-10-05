@@ -12,6 +12,7 @@
 
 /* cont_splash_mem has different memory mapping */
 /delete-node/ &cont_splash_mem;
+/delete-node/ &dfps_data_mem;
 
 / {
 	model = "LG Nexus 5X";
