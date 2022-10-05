@@ -22,15 +22,12 @@
 	qcom,msm-id = <251 0>, <252 0>;
 	qcom,pmic-id = <0x10009 0x1000A 0x0 0x0>;
 
-	/* Bullhead firmware doesn't support PSCI */
-	/delete-node/ psci;
-
 	aliases {
 		serial0 = &blsp1_uart2;
 	};
 
 	chosen {
-		bootargs = "earlycon=efifb console=efifb acpi=no";
+		bootargs = "earlycon=efifb console=efifb acpi=off";
 
 		#address-cells = <2>;
 		#size-cells = <2>;
