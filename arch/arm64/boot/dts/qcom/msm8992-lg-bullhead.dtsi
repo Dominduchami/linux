@@ -124,7 +124,7 @@
 		
 		removed_region: removed-region@5000000 {
  			no-map;
- 			reg = <0 0x5000000 0 0x2500000>;
+ 			reg = <0 0x5000000 0 0x2200000>;
  		};
 
 		tzapps_mem: memory@6500000 {
