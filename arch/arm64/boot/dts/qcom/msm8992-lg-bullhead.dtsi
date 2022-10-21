@@ -32,6 +32,14 @@
 	qcom,msm-id = <251 0>, <252 0>;
 	qcom,pmic-id = <0x10009 0x1000A 0x0 0x0>;
 
+	/* Bullhead firmware supports PSCI via smc now */
+	/delete-node/ psci;
+
+	psci {
+		compatible = "arm,psci-0.2";
+		method = "smc";
+	};
+
 	aliases {
 		serial0 = &blsp1_uart2;
 	};
@@ -123,9 +131,9 @@
 		};
 		
 		removed_region: removed-region@5000000 {
- 			no-map;
- 			reg = <0 0x5000000 0 0x2200000>;
- 		};
+			no-map;
+			reg = <0 0x5000000 0 0x1500000>;
+		};
 
 		tzapps_mem: memory@6500000 {
 			reg = <0 0x6500000 0 0x500000>;
