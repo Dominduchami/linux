@@ -28,8 +28,27 @@
 		serial0 = &blsp1_uart2;
 	};
 
+	/* This enables graphical output via bootloader-enabled display 
+	 * Unfortunately stock bootloader disables refresh on exit,
+	 * so for now the kernel has to be chainloaded from lk2nd
+	 * with a write to an MDP register to reenable autorefresh	
+	*/
 	chosen {
 		stdout-path = "serial0:115200n8";
+		bootargs = "earlycon=tty0 console=tty0 clk_ingore_unused pd_ingore_unused";
+
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		framebuffer0: framebuffer@3400000 {
+			compatible = "simple-framebuffer";
+			reg = <0 0x3400000 0 (1080 * 1920 * 3)>;
+			width = <1080>;
+			height = <1920>;
+			stride = <(1080 * 3)>;
+			format = "r8g8b8";
+		};
 	};
 
 	reserved-memory {
