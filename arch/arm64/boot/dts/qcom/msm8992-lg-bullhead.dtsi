@@ -35,7 +35,7 @@
 	*/
 	chosen {
 		stdout-path = "serial0:115200n8";
-		bootargs = "earlycon=tty0 console=tty0 clk_ingore_unused pd_ingore_unused";
+		bootargs = "earlycon=tty0 console=tty0 clk_ignore_unused pd_ignore_unused";
 
 		#address-cells = <2>;
 		#size-cells = <2>;
@@ -67,6 +67,11 @@
 
 		cont_splash_mem: memory@3400000 {
 			reg = <0 0x03400000 0 0x1200000>;
+			no-map;
+		};
+
+		removed_region: memory@5000000 {
+			reg = <0 0x05000000 0 0x2200000>;
 			no-map;
 		};
 	};
