@@ -63,6 +63,36 @@
 	};
 };
 
+&blsp1_i2c2 {
+	status = "okay";
+	clock-frequency = <400000>;
+
+	touchscreen@20 {
+		compatible = "syna,rmi4-i2c";
+		reg = <0x20>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		interrupts-extended = <&tlmm 22 IRQ_TYPE_EDGE_FALLING>;
+		vdd-supply = <&pm8994_l22>;
+		vio-supply = <&pm8994_l25>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&touchscreen_on>;
+		syna,startup-delay-ms = <66>;
+
+		rmi4-f01@1 {
+			reg = <0x01>;
+			syna,nosleep-mode = <1>;
+		};
+
+		rmi4-f12@12 {
+			reg = <0x12>;
+			syna,sensor-type = <1>;
+		};
+	};
+};
+
 &blsp1_uart2 {
 	status = "okay";
 };
@@ -299,4 +329,26 @@
 	status = "okay";
 
 	mmc-hs400-1_8v;
+};
+
+&tlmm {
+	touchscreen_on: touchscreen-on {
+		irq {
+			pins = "gpio22";
+			function = "gpio";
+
+			drive-strength = <8>;
+			bias-pull-up;
+			input-enable;
+		};
+
+		reset {
+			pins = "gpio8";
+			function = "gpio";
+
+			drive-strength = <8>;
+			bias-disable;
+			output-high;
+		};
+	};
 };
